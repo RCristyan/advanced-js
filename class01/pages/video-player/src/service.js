@@ -1,5 +1,8 @@
+import { prepareRunChecker } from "../../../lib/shared/util.js"
+
 const EAR_THRESHOLD = 0.27;
 
+const { shouldRun } = prepareRunChecker({ timerDelay: 500 })
 export default class Service {
     #model = null
     #faceLandmarksDetection
@@ -51,6 +54,7 @@ export default class Service {
             // True if the eye is closed
             const blinked = leftEAR <= EAR_THRESHOLD && rightEAR <= EAR_THRESHOLD;
             if(!blinked) continue
+            if(!shouldRun()) continue
 
             return blinked
         }
