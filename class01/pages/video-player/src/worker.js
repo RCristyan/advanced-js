@@ -15,11 +15,14 @@ const service = new Service({
 console.log('Loading tf model...')
 await service.loadModel()
 console.log('tf model loaded')
-postMessage('READY')
 
-onmessage = ({ data }) => {
-    console.log('worker!', data)
-    postMessage({
-        'ok': 'ok'
-    })
+// Esse post message as vezes não é recebido pela controller
+postMessage('READY')
+console.log('ready message sent')
+
+onmessage = async ({ data: video }) => {
+    const blinked = await service.hadBlinked(video)
+    if(!blinked) return
+
+    postMessage({ blinked })
 }
