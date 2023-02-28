@@ -21,7 +21,8 @@ async function getWorker() {
 }
 
 const worker = await getWorker()
-console.log(worker)
+worker.postMessage('Hey from factory')
+
 const camera = await Camera.init()
 const [rootPath] = window.location.href.split('/pages/')
 const factory = {
