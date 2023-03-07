@@ -63,7 +63,21 @@ export default class HandGestureView {
 
             this.#canvasContext.strokeStyle = "blue"
             this.#canvasContext.stroke(region)
+            this.#hoverElement(finger, points)
         }
+    }
+
+    #hoverElement(finger, points) {
+        if(finger !== "indexFinger") return 
+
+        const tip = points.find(item => item.name === "index_finger_tip")
+        const element = document.elementFromPoint(tip.x, tip.y)
+        if(!element) return
+
+        const fn = () => this.#styler.toggleStyle(element, ':hover')
+        fn()
+
+        setTimeout(() => fn(), 500)
     }
 
     clickOnElement(x, y) {
